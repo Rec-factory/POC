@@ -1,0 +1,57 @@
+/* Socle Ionic */
+@import '@ionic/angular/css/core.css';
+@import '@ionic/angular/css/normalize.css';
+@import '@ionic/angular/css/structure.css';
+@import '@ionic/angular/css/typography.css';
+@import '@ionic/angular/css/display.css';
+
+/* Utilitaires Ionic */
+@import '@ionic/angular/css/padding.css';
+@import '@ionic/angular/css/float-elements.css';
+@import '@ionic/angular/css/text-alignment.css';
+@import '@ionic/angular/css/text-transformation.css';
+@import '@ionic/angular/css/flex-utils.css';
+
+/* Thème du POC */
+@import './theme/variables.scss';
+
+/* Conçu mobile-first (cible 360 px de largeur). */
+.simulation-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #1a1500;
+  background: var(--scandiag-warning, #ffd200);
+  padding-top: calc(4px + var(--ion-safe-area-top, 0px));
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.status-pill--good {
+  background: rgba(45, 211, 111, 0.15);
+  color: #1c7a44;
+}
+.status-pill--warning {
+  background: rgba(255, 196, 9, 0.18);
+  color: #8a6d00;
+}
+.status-pill--critical {
+  background: rgba(235, 68, 90, 0.15);
+  color: #a01b2b;
+}
+.status-pill--invalid {
+  background: rgba(118, 123, 138, 0.15);
+  color: #50545e;
+}
