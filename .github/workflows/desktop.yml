@@ -1,0 +1,57 @@
+name: Desktop (Capacitor + Electron)
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  desktop:
+    name: Build desktop (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Configuration de Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Installation des dépendances
+        run: npm ci
+      - name: Build des packages partagés
+        run: npm run build:packages
+      - name: Build de l'application web (Angular)
+        run: npm run build -w @scandiag/mobile
+      - name: Copie des assets web dans Electron
+        run: >
+          node -e "const fs=require('fs');
+          fs.rmSync('apps/mobile/electron/app',{recursive:true,force:true});
+          fs.cpSync('apps/mobile/www','apps/mobile/electron/app',{recursive:true});"
+      - name: Installation des dépendances Electron
+        working-directory: apps/mobile/electron
+        run: npm install
+      - name: Build et publication de l'installeur
+        working-directory: apps/mobile/electron
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CSC_IDENTITY_AUTO_DISCOVERY: false
+        run: npm run electron:make
+      - name: Publication des installeurs en artefacts
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: desktop-${{ matrix.os }}
+          path: |
+            apps/mobile/electron/dist/*.AppImage
+            apps/mobile/electron/dist/*.exe
+            apps/mobile/electron/dist/*.dmg
+          if-no-files-found: ignore
+          retention-days: 7
