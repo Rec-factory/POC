@@ -6,6 +6,7 @@ coverage
 playwright-report
 test-results
 android
+electron
 package-lock.json
 
 # Documents de cadrage fournis (conservés tels quels)
