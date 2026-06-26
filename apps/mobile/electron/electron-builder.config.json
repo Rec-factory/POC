@@ -1,0 +1,36 @@
+{
+  "appId": "com.facom.scandiag.poc",
+  "productName": "FACOM SCANDIAG POC",
+  "directories": {
+    "buildResources": "resources"
+  },
+  "files": [
+    "assets/**/*",
+    "build/**/*",
+    "capacitor.config.*",
+    "app/**/*"
+  ],
+  "publish": {
+    "provider": "github",
+    "owner": "rec-factory",
+    "repo": "poc",
+    "releaseType": "draft"
+  },
+  "linux": {
+    "target": ["AppImage"],
+    "category": "Utility"
+  },
+  "nsis": {
+    "allowElevation": true,
+    "oneClick": false,
+    "allowToChangeInstallationDirectory": true
+  },
+  "win": {
+    "target": "nsis",
+    "icon": "assets/appIcon.ico"
+  },
+  "mac": {
+    "category": "public.app-category.utilities",
+    "target": "dmg"
+  }
+}

@@ -26,6 +26,7 @@
     "@angular/build": "^18.2.21",
     "@angular/cli": "^18.2.21",
     "@angular/compiler-cli": "^18.2.14",
+    "@capacitor-community/electron": "^5.0.1",
     "@capacitor/cli": "^6.2.1",
     "@playwright/test": "^1.55.0",
     "@types/node": "^20.19.43",
