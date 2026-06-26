@@ -11,10 +11,14 @@
     }
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json"
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run"
   },
   "dependencies": {
     "@scandiag/contracts": "*",
     "@scandiag/core": "*"
+  },
+  "devDependencies": {
+    "vitest": "^2.1.9"
   }
 }

@@ -20,7 +20,9 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "api:dev": "npm run start:dev -w @scandiag/api",
-    "mobile:dev": "npm run start -w @scandiag/mobile"
+    "mobile:dev": "npm run start -w @scandiag/mobile",
+    "e2e": "npm run e2e -w @scandiag/mobile",
+    "test:unit": "npm run test -w @scandiag/contracts -w @scandiag/core -w @scandiag/test-fixtures -w @scandiag/api --if-present"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",

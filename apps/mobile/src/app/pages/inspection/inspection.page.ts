@@ -44,8 +44,6 @@ import {
   checkmarkDoneOutline,
 } from 'ionicons/icons';
 import { InspectionFacade } from '../../core/inspection/inspection.facade';
-import { ScandiagDeviceError } from '../../core/device/mock-scandiag.adapter';
-import { FacomApiError } from '../../core/api/facom-api.error';
 import {
   WHEEL_POSITIONS,
   measurementTypeLabel,
@@ -218,12 +216,8 @@ export class InspectionPage implements OnInit {
   }
 
   private toMessage(caught: unknown): string {
-    if (
-      caught instanceof FacomApiError ||
-      caught instanceof ScandiagDeviceError
-    ) {
-      return caught.message;
-    }
-    return 'Une erreur est survenue.';
+    return caught instanceof Error
+      ? caught.message
+      : 'Une erreur est survenue.';
   }
 }
