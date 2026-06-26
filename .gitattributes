@@ -1,0 +1,7 @@
+# Normalise les fins de ligne en LF sur toutes les plateformes
+* text=auto eol=lf
+
+# Fichiers binaires
+*.png binary
+*.jpg binary
+*.ico binary
