@@ -11,6 +11,8 @@
     "@angular/forms": "^18.2.14",
     "@angular/platform-browser": "^18.2.14",
     "@angular/router": "^18.2.14",
+    "@capacitor/android": "^6.2.1",
+    "@capacitor/core": "^6.2.1",
     "@ionic/angular": "^8.8.12",
     "@scandiag/contracts": "^0.1.0",
     "@scandiag/core": "^0.1.0",
@@ -24,6 +26,7 @@
     "@angular/build": "^18.2.21",
     "@angular/cli": "^18.2.21",
     "@angular/compiler-cli": "^18.2.14",
+    "@capacitor/cli": "^6.2.1",
     "@playwright/test": "^1.55.0",
     "@types/node": "^20.19.43",
     "typescript": "~5.5.4"
@@ -32,6 +35,9 @@
     "start": "ng serve --host 0.0.0.0 --port 4200",
     "build": "ng build",
     "lint": "ng lint || true",
-    "e2e": "playwright test"
+    "e2e": "playwright test",
+    "build:android": "ng build && cap sync android",
+    "cap:add:android": "cap add android",
+    "cap:sync": "cap sync"
   }
 }
