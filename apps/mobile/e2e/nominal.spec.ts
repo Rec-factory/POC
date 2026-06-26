@@ -32,4 +32,12 @@ test('parcours nominal : connexion → véhicule → mesure → résultat', asyn
   // Clôture et synthèse.
   await page.getByTestId('complete').click();
   await expect(page.getByTestId('result-done')).toBeVisible();
+
+  // Retour au véhicule : le contrôle apparaît dans l'historique.
+  await page.getByTestId('result-done').click();
+  await expect(page.getByTestId('history-item').first()).toBeVisible();
+
+  // L'historique persiste après rechargement (localStorage).
+  await page.reload();
+  await expect(page.getByTestId('history-item').first()).toBeVisible();
 });

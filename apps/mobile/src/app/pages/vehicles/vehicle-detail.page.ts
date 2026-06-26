@@ -1,13 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  type OnInit,
   inject,
   input,
   signal,
 } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import type { ViewWillEnter } from '@ionic/angular/standalone';
 import type { Inspection, Vehicle } from '@scandiag/contracts';
 import { summarizeInspection } from '@scandiag/core';
 import {
@@ -124,7 +124,7 @@ import { FacomApiError } from '../../core/api/facom-api.error';
               </ion-item>
             } @else {
               @for (inspection of inspections(); track inspection.id) {
-                <ion-item>
+                <ion-item data-testid="history-item">
                   <ion-label>
                     {{ inspection.createdAt | date: 'short' }}
                     <ion-note>
@@ -150,7 +150,7 @@ import { FacomApiError } from '../../core/api/facom-api.error';
     </ion-content>
   `,
 })
-export class VehicleDetailPage implements OnInit {
+export class VehicleDetailPage implements ViewWillEnter {
   private readonly vehiclesFacade = inject(VehiclesFacade);
 
   /** Identifiant du véhicule injecté depuis la route (withComponentInputBinding). */
@@ -173,7 +173,8 @@ export class VehicleDetailPage implements OnInit {
     return summarizeInspection(inspection).worstStatus;
   }
 
-  ngOnInit(): void {
+  /** Rechargé à chaque entrée (y compris au retour depuis un contrôle). */
+  ionViewWillEnter(): void {
     void this.load();
   }
 
