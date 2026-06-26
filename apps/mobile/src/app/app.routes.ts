@@ -14,6 +14,14 @@ export const APP_ROUTES: Routes = [
       import('./pages/vehicles/vehicles.page').then((m) => m.VehiclesPage),
   },
   {
+    path: 'vehicles/:vehicleId/inspection',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./pages/inspection/inspection.page').then(
+        (m) => m.InspectionPage,
+      ),
+  },
+  {
     path: 'vehicles/:id',
     canActivate: [authGuard],
     loadComponent: () =>
