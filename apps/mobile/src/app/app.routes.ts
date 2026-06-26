@@ -38,6 +38,11 @@ export const APP_ROUTES: Routes = [
       ),
   },
   {
+    path: 'demo',
+    loadComponent: () =>
+      import('./pages/demo/demo.page').then((m) => m.DemoPage),
+  },
+  {
     path: '',
     redirectTo: 'vehicles',
     pathMatch: 'full',
