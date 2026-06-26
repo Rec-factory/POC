@@ -23,7 +23,11 @@ import {
   IonToolbar,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { chevronForwardOutline, logOutOutline } from 'ionicons/icons';
+import {
+  chevronForwardOutline,
+  flaskOutline,
+  logOutOutline,
+} from 'ionicons/icons';
 import { VehiclesFacade } from '../../core/vehicles/vehicles.facade';
 import { AuthFacade } from '../../core/auth/auth.facade';
 import { FacomApiError } from '../../core/api/facom-api.error';
@@ -53,6 +57,9 @@ import { FacomApiError } from '../../core/api/facom-api.error';
       <ion-toolbar color="primary">
         <ion-title>Véhicules</ion-title>
         <ion-buttons slot="end">
+          <ion-button routerLink="/demo" data-testid="open-demo">
+            <ion-icon slot="icon-only" name="flask-outline"></ion-icon>
+          </ion-button>
           <ion-button (click)="logout()" data-testid="logout">
             <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
           </ion-button>
@@ -107,7 +114,7 @@ export class VehiclesPage implements OnInit {
   readonly error = signal<string | null>(null);
 
   constructor() {
-    addIcons({ chevronForwardOutline, logOutOutline });
+    addIcons({ chevronForwardOutline, flaskOutline, logOutOutline });
   }
 
   ngOnInit(): void {

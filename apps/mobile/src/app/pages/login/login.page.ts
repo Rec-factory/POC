@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { inject } from '@angular/core';
 import {
   IonButton,
@@ -23,6 +23,7 @@ import { FacomApiError } from '../../core/api/facom-api.error';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FormsModule,
+    RouterLink,
     IonHeader,
     IonToolbar,
     IonTitle,
@@ -87,6 +88,10 @@ import { FacomApiError } from '../../core/api/facom-api.error';
         Comptes : <code>demo&#64;facom.test / demo</code> ou
         <code>tech&#64;facom.test / scandiag</code>.
       </ion-note>
+
+      <ion-button expand="block" fill="clear" routerLink="/demo">
+        Mode démonstration
+      </ion-button>
     </ion-content>
   `,
 })
