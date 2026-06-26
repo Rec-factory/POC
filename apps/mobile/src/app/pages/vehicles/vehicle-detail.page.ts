@@ -9,6 +9,11 @@ import {
 import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import type { Inspection, Vehicle } from '@scandiag/contracts';
+import { summarizeInspection } from '@scandiag/core';
+import {
+  statusLabel,
+  statusPillClass,
+} from '../../shared/measurement-presentation';
 import {
   IonBackButton,
   IonButton,
@@ -131,6 +136,11 @@ import { FacomApiError } from '../../core/api/facom-api.error';
                       }}
                     </ion-note>
                   </ion-label>
+                  @if (worstStatus(inspection); as status) {
+                    <span slot="end" [class]="statusPillClass(status)">
+                      {{ statusLabel(status) }}
+                    </span>
+                  }
                 </ion-item>
               }
             }
@@ -151,8 +161,16 @@ export class VehicleDetailPage implements OnInit {
   readonly loading = signal(true);
   readonly error = signal<string | null>(null);
 
+  readonly statusLabel = statusLabel;
+  readonly statusPillClass = statusPillClass;
+
   constructor() {
     addIcons({ addCircleOutline });
+  }
+
+  /** Statut le plus défavorable d'un contrôle, pour l'historique. */
+  worstStatus(inspection: Inspection) {
+    return summarizeInspection(inspection).worstStatus;
   }
 
   ngOnInit(): void {
