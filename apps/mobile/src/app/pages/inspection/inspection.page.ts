@@ -198,7 +198,9 @@ export class InspectionPage implements OnInit {
     this.error.set(null);
     try {
       await this.facade.complete();
-      await this.router.navigateByUrl(`/vehicles/${this.vehicleId()}`);
+      await this.router.navigateByUrl(
+        `/vehicles/${this.vehicleId()}/inspection/result`,
+      );
     } catch (caught) {
       this.error.set(this.toMessage(caught));
     } finally {

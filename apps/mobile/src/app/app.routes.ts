@@ -22,6 +22,14 @@ export const APP_ROUTES: Routes = [
       ),
   },
   {
+    path: 'vehicles/:vehicleId/inspection/result',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./pages/inspection/inspection-result.page').then(
+        (m) => m.InspectionResultPage,
+      ),
+  },
+  {
     path: 'vehicles/:id',
     canActivate: [authGuard],
     loadComponent: () =>
