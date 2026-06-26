@@ -1,0 +1,115 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button
+        [defaultHref]="'/vehicles/' + vehicleId()"
+      ></ion-back-button>
+    </ion-buttons>
+    <ion-title>Contrôle</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  @if (error(); as message) {
+  <ion-text color="danger">
+    <p data-testid="inspection-error">{{ message }}</p>
+  </ion-text>
+  }
+
+  <!-- Connexion à l'appareil simulé -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>SCANDIAG simulé</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>
+        État :
+        <strong data-testid="device-state">{{ connectionLabel() }}</strong>
+      </p>
+      @if (deviceState().batteryLevel !== null) {
+      <p>
+        <ion-icon
+          [name]="
+              deviceState().batteryLevel! < 15
+                ? 'battery-dead-outline'
+                : 'battery-half-outline'
+            "
+        ></ion-icon>
+        Batterie : {{ deviceState().batteryLevel }} % @if
+        (deviceState().batteryLevel! < 15) {
+        <ion-badge color="warning">faible</ion-badge>
+        }
+      </p>
+      } @if (!isConnected()) {
+      <ion-button
+        expand="block"
+        (click)="connect()"
+        [disabled]="connecting()"
+        data-testid="connect"
+      >
+        <ion-icon slot="start" name="bluetooth-outline"></ion-icon>
+        {{ connecting() ? 'Connexion…' : 'Rechercher et connecter' }}
+      </ion-button>
+      } @else {
+      <ion-note>Appareil prêt pour la mesure.</ion-note>
+      }
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Sélection du type de mesure -->
+  <ion-segment
+    [value]="selectedType()"
+    (ionChange)="onTypeChange($event.detail.value)"
+  >
+    <ion-segment-button value="tire" data-testid="type-tire">
+      <ion-label>Pneus</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="brake-disc" data-testid="type-brake-disc">
+      <ion-label>Disques</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Mesures par position -->
+  <ion-list inset="true">
+    @for (position of positions; track position) {
+    <ion-item>
+      <ion-label>
+        {{ positionLabel(position) }} @if (measurementFor(position); as m) {
+        <ion-note>
+          {{ m.value }} {{ m.unit }} ·
+          <span [class]="statusPillClass(m.status)">
+            {{ statusLabel(m.status) }}
+          </span>
+        </ion-note>
+        } @else {
+        <ion-note>Non mesuré</ion-note>
+        }
+      </ion-label>
+      <ion-button
+        slot="end"
+        size="default"
+        (click)="measure(position)"
+        [disabled]="!isConnected() || busyPosition() !== null"
+        [attr.data-testid]="'measure-' + position"
+      >
+        @if (busyPosition() === position) {
+        <ion-spinner name="dots"></ion-spinner>
+        } @else { {{ measurementFor(position) ? 'Refaire' : 'Mesurer' }} }
+      </ion-button>
+    </ion-item>
+    }
+  </ion-list>
+
+  <ion-button
+    expand="block"
+    color="primary"
+    (click)="complete()"
+    [disabled]="
+      completing() || (inspection()?.measurements?.length ?? 0) === 0
+    "
+    data-testid="complete"
+  >
+    <ion-icon slot="start" name="checkmark-done-outline"></ion-icon>
+    {{ completing() ? 'Clôture…' : 'Terminer le contrôle' }}
+  </ion-button>
+</ion-content>

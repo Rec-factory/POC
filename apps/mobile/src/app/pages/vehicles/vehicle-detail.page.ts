@@ -7,12 +7,15 @@ import {
   signal,
 } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import type { Inspection, Vehicle } from '@scandiag/contracts';
 import {
   IonBackButton,
+  IonButton,
   IonButtons,
   IonContent,
   IonHeader,
+  IonIcon,
   IonItem,
   IonLabel,
   IonList,
@@ -23,6 +26,8 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { addCircleOutline } from 'ionicons/icons';
 import { VehiclesFacade } from '../../core/vehicles/vehicles.facade';
 import { FacomApiError } from '../../core/api/facom-api.error';
 
@@ -32,11 +37,14 @@ import { FacomApiError } from '../../core/api/facom-api.error';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     DatePipe,
+    RouterLink,
     IonHeader,
     IonToolbar,
     IonTitle,
     IonButtons,
     IonBackButton,
+    IonButton,
+    IonIcon,
     IonContent,
     IonList,
     IonListHeader,
@@ -92,6 +100,15 @@ import { FacomApiError } from '../../core/api/facom-api.error';
             </ion-item>
           </ion-list>
 
+          <ion-button
+            expand="block"
+            [routerLink]="['/vehicles', vehicle()!.id, 'inspection']"
+            data-testid="start-inspection"
+          >
+            <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+            Démarrer un contrôle
+          </ion-button>
+
           <ion-list inset="true">
             <ion-list-header>Historique des contrôles</ion-list-header>
             @if (inspections().length === 0) {
@@ -133,6 +150,10 @@ export class VehicleDetailPage implements OnInit {
   readonly inspections = signal<Inspection[]>([]);
   readonly loading = signal(true);
   readonly error = signal<string | null>(null);
+
+  constructor() {
+    addIcons({ addCircleOutline });
+  }
 
   ngOnInit(): void {
     void this.load();
