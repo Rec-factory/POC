@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches: [master, 'claude/**']
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build & tests (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Configuration de Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Installation des dépendances
+        run: npm ci
+      - name: Build (packages, API et application mobile)
+        run: npm run build
+      - name: Lint
+        run: npm run lint
+      - name: Tests unitaires et d'API
+        run: npm run test:unit
+
+  e2e:
+    name: Tests e2e Playwright (ubuntu)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Configuration de Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Installation des dépendances
+        run: npm ci
+      - name: Build des packages partagés
+        run: npm run build:packages
+      - name: Installation du navigateur Playwright
+        run: npx playwright install --with-deps chromium
+        working-directory: apps/mobile
+      - name: Tests de bout en bout
+        run: npm run e2e
+      - name: Publication du rapport Playwright
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: apps/mobile/playwright-report/
+          retention-days: 7
+          if-no-files-found: ignore
