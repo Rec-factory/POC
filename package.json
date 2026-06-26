@@ -1,0 +1,35 @@
+{
+  "name": "facom-scandiag-poc",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "POC mobile FACOM SCANDIAG — phase 0 entièrement simulée.",
+  "license": "UNLICENSED",
+  "workspaces": [
+    "packages/contracts",
+    "packages/scandiag-core",
+    "packages/test-fixtures",
+    "apps/api",
+    "apps/mobile"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "build:packages": "npm run build -w @scandiag/contracts -w @scandiag/core -w @scandiag/test-fixtures",
+    "test": "npm run test --workspaces --if-present",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "api:dev": "npm run start:dev -w @scandiag/api",
+    "mobile:dev": "npm run start -w @scandiag/mobile"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "eslint": "^9.13.0",
+    "prettier": "^3.3.3",
+    "typescript": "~5.5.4",
+    "typescript-eslint": "^8.11.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

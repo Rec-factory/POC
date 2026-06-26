@@ -1,0 +1,6 @@
+{
+  "name": "@scandiag/api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "API NestJS simulée pour le POC FACOM SCANDIAG."
+}

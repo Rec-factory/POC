@@ -1,0 +1,13 @@
+node_modules
+dist
+www
+coverage
+.angular
+playwright-report
+test-results
+android
+package-lock.json
+
+# Documents de cadrage fournis (conservés tels quels)
+AGENTS.MD
+docs/PLAN_ACTION.md
